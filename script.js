@@ -7,37 +7,42 @@ var runde = 2;
 var checkThisWithSelected = 0;
 var buttonpressed = 0;
 
-
 generatenumbers();
 displayButtons(1);
+
 
 function checkbutton(selectednumber) {
   checkThisWithSelected++;
 
   if(selectednumber==myarray[checkThisWithSelected]){
-    if(checkThisWithSelected==runde-1){
-
-      displayButtons(1);
-      checkThisWithSelected = 0;
-      runde++;
-      generatenumbers();
-      buttonpressed = 0;
-      console.log(myarray+"win");
-    }
+    nextround();
   }
   else{
-
-    checkThisWithSelected = 0;
-    runde = 2;
-    buttonpressed = 0;
-    myarray.length = 0;
-    console.log(myarray+"loss");
-    generatenumbers();
-    displayButtons(1);
-
-
+    restart();
   }
 
+}
+
+function nextround(){
+  cleartiles();
+  if(checkThisWithSelected==runde-1){
+
+    displayButtons(1);
+    checkThisWithSelected = 0;
+    runde++;
+    generatenumbers();
+    buttonpressed = 0;
+  }
+}
+
+function restart(){
+  setTimeout(cleartiles, 300);
+  checkThisWithSelected = 0;
+  runde = 2;
+  buttonpressed = 0;
+  myarray.length = 0;
+  generatenumbers();
+  displayButtons(1);
 }
 
 
@@ -58,7 +63,12 @@ function displayButtons(myDigitPosition){
   setTimeout(addclass, 250, myarray[myDigitPosition]);
   setTimeout(displayButtons, 500, myDigitPosition+1);
 }
-
+function cleartiles(){
+  document.getElementById("button1").classList.remove("button1");
+  document.getElementById("button2").classList.remove("button2");
+  document.getElementById("button3").classList.remove("button3");
+  document.getElementById("button4").classList.remove("button4");
+}
 
 
 document.getElementById("button1").addEventListener("click", function () {
@@ -73,3 +83,4 @@ document.getElementById("button3").addEventListener("click", function () {
 document.getElementById("button4").addEventListener("click", function () {
   checkbutton(4);
 });
+
