@@ -1,75 +1,73 @@
+const NUMBERRANGE = 4; // constant used for calculating numbers within the range of tiles
+
 const myarray = [];
 var colored1 = false;
 var colored2 = false;
 var colored3 = false;
 var colored4 = false;
-var runde = 2;
+var runde = 1;
 var checkThisWithSelected = 0;
 var buttonpressed = 0;
 
-
 generatenumbers();
-displayButtons(1);
+displayButtons(0);
 
 function checkbutton(selectednumber) {
-  checkThisWithSelected++;
-
+  console.log('checking if number match..', selectednumber == myarray[checkThisWithSelected]);
   if(selectednumber==myarray[checkThisWithSelected]){
-    if(checkThisWithSelected==runde-1){
-
-      displayButtons(1);
-      checkThisWithSelected = 0;
+    checkThisWithSelected++;
+    if(checkThisWithSelected >= myarray.length){
       runde++;
       generatenumbers();
+      displayButtons(0);
+      checkThisWithSelected = 0;
       buttonpressed = 0;
-      console.log(myarray+"win");
+      console.log(myarray+" win");
     }
-  }
-  else{
-
+  } else {
     checkThisWithSelected = 0;
-    runde = 2;
+    runde = 1;
     buttonpressed = 0;
     myarray.length = 0;
-    console.log(myarray+"loss");
+    console.log(myarray+" loss");
     generatenumbers();
-    displayButtons(1);
-
-
+    displayButtons(0);
   }
-
 }
-
 
 function removeclass(number){
-  document.getElementById("button" + number).classList.remove("button" + number);
+  console.log(number);
+  const button = document.getElementById(number);
+  console.log(button, 'removeclass');
+  button.classList.remove("button" + number);
 }
+
 function addclass(number){
-  document.getElementById("button" + number).classList.add("button" + number);
+  const button = document.getElementById(number);
+  console.log(button, 'addclass');
+  button.classList.add("button" + number);
 }
 
 function generatenumbers() {
   while(myarray.length<runde){
-    myarray.push(Math.floor(Math.random() * 4) + 1);
+    myarray.push(Math.floor(Math.random() * NUMBERRANGE) + 1);
+  }
+  console.log('generating myarray', myarray);
+}
+
+function displayButtons(myDigitPosition){
+  addclass(myarray[myDigitPosition]);
+  setTimeout(removeclass, 250, myarray[myDigitPosition]);
+
+  if(++myDigitPosition < myarray.length){ 
+    setTimeout(displayButtons, 500, myDigitPosition);
   }
 }
-function displayButtons(myDigitPosition){
-  removeclass(myarray[myDigitPosition-1]);
-  setTimeout(addclass, 250, myarray[myDigitPosition]);
-  setTimeout(displayButtons, 500, myDigitPosition+1);
-}
 
+const buttonArray = document.getElementById('positionbuttons');
 
-
-document.getElementById("button1").addEventListener("click", function () {
-  checkbutton(1);
-});
-document.getElementById("button2").addEventListener("click", function () {
-  checkbutton(2);
-});
-document.getElementById("button3").addEventListener("click", function () {
-  checkbutton(3);
-});
-document.getElementById("button4").addEventListener("click", function () {
-  checkbutton(4);
+buttonArray.addEventListener('click', function (event){
+  const buttonId = event.target.id;
+  console.log('click', buttonId);
+  checkbutton(buttonId);
 });
