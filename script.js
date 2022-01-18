@@ -12,9 +12,11 @@ var buttonpressed = 0;
 generatenumbers();
 displayButtons(0);
 
+
 function checkbutton(selectednumber) {
   console.log('checking if number match..', selectednumber == myarray[checkThisWithSelected]);
   if(selectednumber==myarray[checkThisWithSelected]){
+
     checkThisWithSelected++;
     if(checkThisWithSelected >= myarray.length){
       runde++;
@@ -33,6 +35,7 @@ function checkbutton(selectednumber) {
     generatenumbers();
     displayButtons(0);
   }
+
 }
 
 function removeclass(number){
@@ -56,18 +59,22 @@ function generatenumbers() {
 }
 
 function displayButtons(myDigitPosition){
+
   addclass(myarray[myDigitPosition]);
   setTimeout(removeclass, 250, myarray[myDigitPosition]);
 
   if(++myDigitPosition < myarray.length){ 
     setTimeout(displayButtons, 500, myDigitPosition);
   }
+
 }
 
 const buttonArray = document.getElementById('positionbuttons');
+
 
 buttonArray.addEventListener('click', function (event){
   const buttonId = event.target.id;
   console.log('click', buttonId);
   checkbutton(buttonId);
 });
+
